@@ -14,6 +14,6 @@ configureCommonMiddleWares(app);
 app.use(morgan(':status :method :url :response-time :req[body]'))
 connectToMongodb();
 
-app.use('/api', userRoutes);
+app.use('/upload', userRoutes);
 
 startServer(app);

@@ -3,7 +3,15 @@ const cors = require("cors");
 
 exports.configureCommonMiddleWares = async (app) =>
 { 
-   require("dotenv").config();
-    app.use(cors());
+   if(process.env.ENV == "prod"){
+      app.use(cors(
+         {
+            origin:['http://localhost:3000','http://62.72.31.73']
+         }
+      ));
+   }
+   else{
+      app.use(cors());
+   }
    app.use(express.json());
 }

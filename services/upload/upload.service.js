@@ -16,7 +16,7 @@ exports.uploadFileToS3 = (filePath,fileName) => {
            })
         }
         const params = {
-            Bucket:process.env.ENV == "PROD" ? 'content-finscre' :'test-content-finscre', // pass your bucket name
+            Bucket:process.env.ENV == "prod" ? 'content-finscre' :'test-content-finscre', // pass your bucket name
             Key: fileName, // file will be saved as testBucket/contacts.csv
             Body: data
         };

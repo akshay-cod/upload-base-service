@@ -7,7 +7,7 @@ const s3 = new AWS.S3({
     region: 'ap-south-1'
 });
 
-exports.uploadFileToS3 = (filePath,fileName) => {
+exports.uploadFileToS3 = (filePath, fileName) => {
   return new Promise((resolve, reject)=>{
     fs.readFile(filePath, (err, data) => {
         if (err) {
@@ -22,8 +22,8 @@ exports.uploadFileToS3 = (filePath,fileName) => {
         };
         s3.upload(params, function(s3Err, data) {
             if (s3Err) throw s3Err
-            console.log(`File uploaded successfully at ${data.Location}`)
-            console.log(data,process.env.ENV)
+            //console.log(`File uploaded successfully at ${data.Location}`)
+          //  console.log(data,process.env.ENV)
             fs.unlinkSync(filePath)
             resolve({
                status:true,
@@ -33,6 +33,20 @@ exports.uploadFileToS3 = (filePath,fileName) => {
      });
   }) 
 };
+
+exports.deleteFileFromS3 = async (key) => {
+    try{
+        const params = { Bucket:process.env.ENV == "prod" ? 'content-finscre' :'test-content-finscre', Key: key };
+        const status = await s3.deleteObject(params).promise();
+        if(status){
+            return true
+        }
+    }
+    catch(err){
+        return false
+    }
+    
+}
 
 exports.getPreSignedContentUrl = async(fileName) => {
     try{

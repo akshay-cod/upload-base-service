@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const { verifyTheUserToken } = require('../../../config/auth/userAuth');
-const { uploadAFile } = require("./upload.controller");
+const { uploadAFile, removeAfile } = require("./upload.controller");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,5 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage, limits:{fileSize:1000000000 * 5}});
 
 router.post('/upload-single-file',verifyTheUserToken, upload.single('file'), uploadAFile);
+
+router.post('/remove-single-file',verifyTheUserToken, removeAfile);
 
 module.exports = router;
